@@ -4,6 +4,19 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+//OMDB API STUFF
+var omdb = require('omdb-client');
+
+var params = {
+    apiKey: 'f7cb9dc5',
+    query: 'Terminator',
+    year: 2012
+}
+
+omdb.search(params, function(err, data) {
+    console.log(data);
+});
+
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const formsRouter = require('./routes/forms');
