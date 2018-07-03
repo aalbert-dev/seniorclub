@@ -3,19 +3,49 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
-//OMDB API STUFF
+var readline = require('readline-sync');
 var omdb = require('omdb-client');
 
-var params = {
-    apiKey: 'f7cb9dc5',
-    query: 'Terminator',
-    year: 2012
+const Movie = require('./models/movie');
+//OMDB API STUFF
+
+function search_movie_title(title){
+	//create search paramters
+	var params = create_omdb_params(title);
+	//call get functionn given paramters
+	omdb.get(params, function(err, data) {
+		//print and save data
+    	console.log(data);
+    	save_movie_from_data(data);
+	});
 }
 
-omdb.search(params, function(err, data) {
-    console.log(data);
-});
+function create_omdb_params(title,year,type,director){
+	//declare and return functions 
+	var params = {
+    	apiKey: 'f7cb9dc5',
+    	title: title
+	}
+	return params;
+}
+
+function save_movie_from_data(data){
+	//Create new movie object and display in console
+	console.log("Saving movie data...");
+	var new_movie = new Movie( {
+    	movieid: data.imdbID,
+  		title: data.Title,
+  		year: data.Year,
+  		posterurl: data.Poster
+  } )
+	//Save new movie object and display in console
+	new_movie.save();
+	console.log("Movie data saved!");
+	console.log(new_movie);
+}
+
+//Test Prompt
+search_movie_title(readline.question("Search for movie: "));
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
