@@ -1,0 +1,7 @@
+{
+  "name": "app.js",
+  "description": "SeniorClub first deployment",
+  "repository": "https://github.com/lulugotfire/seniorcenter",
+  "logo": "https://node-js-sample.herokuapp.com/node.png",
+  "keywords": ["node", "express", "static"]
+}
